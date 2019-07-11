@@ -1,0 +1,55 @@
+﻿@model AmnilPhotoContest.Web.Models.ContestantRatingDTO
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Rate Contestant</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="~/Images/Photos/@Model.PhotoUrl" class="img-thumbnail" />
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <strong>@Model.FullName</strong><br />
+                        <small>District: @Model.District</small>
+                    </div>
+                    <div class="row">
+                        @using (Html.BeginForm("AddRating", "ContestantRating", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
+                        {
+                            @Html.HiddenFor(model=> model.ContestantId)
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Rating, "Rating: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.Rating, htmlAttributes: new { @class = "starRatingForm pull-right" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Save" class=" col-md-2 btn btn-success" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/Simple-jQuery-Star-Rating-System-For-Bootstrap-3/js/star-rating.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.starRatingForm').rating({
+            starCaptions: function (val) {
+                return val;
+            },
+            size: 'md',
+            min: '0',
+            max: '5',
+            step: '0.1',
+            showClear: false,
+            starCaptionClasses: function () {
+                return 'label label-primary';
+            }
+        });
+    })
+</script>

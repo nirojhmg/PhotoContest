@@ -1,0 +1,76 @@
+﻿@model IPagedList<AmnilPhotoContest.Web.Models.ContestantRatingDTO>
+@{
+    ViewBag.Title = "Index";
+}
+@using PagedList.Mvc
+@using PagedList
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/Content/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
+<link rel="stylesheet" href="~/Content/Simple-jQuery-Star-Rating-System-For-Bootstrap-3/css/star-rating.min.css" />
+<h2>Contestant Ratings</h2>
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Date of Birth</th>
+            <th>District</th>
+            <th>Average Rating</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.Count == 0)
+        {
+            <tr><td colspan="4"><center>No data found !</center></td></tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateOfBirth)</td>
+                    <td>@Html.DisplayFor(modelItem => item.District)</td>
+                    <td><input class="average-rating" value="@Html.DisplayFor(modelItem => item.AverageRating)" /></td>
+
+                    <td>@Html.ActionLink("Rate This", "Rate", new { @id = item.ContestantId }, htmlAttributes: new { @class = "btn btn-sm btn-warning btnRateThis" })</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@Html.PagedListPager(Model, pageNumber => Url.Action("Index", new { pageNumber }))
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Content/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="~/Content/Simple-jQuery-Star-Rating-System-For-Bootstrap-3/js/star-rating.min.js"></script>
+<script>
+  
+
+    $(".average-rating").rating({
+        starCaptions: function (val) {
+            return val;
+        },
+        size: 'xs',
+        min: '0',
+        max: '5',
+        showClear: false,
+        starCaptionClasses: function () {
+            return 'label label-primary';
+        },
+        disabled: true
+    });
+    $('.btnRateThis').on('click', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.get(url, function (data) {
+            debugger;
+            $('#ratingModalForm').html(data);
+            $('#ratingModalForm').modal('show');
+        });
+    });
+</script>
+<div id="ratingModalForm" class="modal fade"></div>

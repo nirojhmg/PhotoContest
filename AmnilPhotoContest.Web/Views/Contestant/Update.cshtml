@@ -1,0 +1,80 @@
+﻿@model AmnilPhotoContest.Web.Models.ContestantDTO
+@{
+    ViewBag.Title = "Update";
+}
+<link rel="stylesheet" href="~/Content/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
+<h2>Add</h2><hr />
+<div class="jumbotron">
+    @using (Html.BeginForm("Update", "Contestant", FormMethod.Post, htmlAttributes: new { enctype = "multipart/form-data" }))
+    {
+        <div class="form-group row">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.FirstName, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FirstName, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.LastName, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LastName, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.DateOfBirth, "{0:MM/dd/yyyy}", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DateOfBirth, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(model => model.IsActive, new SelectList(new List<SelectListItem> { new SelectListItem { Text = "Not Active", Value = "0", Selected = true }, new SelectListItem { Text = "Active", Value = "1" } }, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IsActive, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(model => model.DistrictId, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(model => model.DistrictId, new SelectList(Model.Districts, "Id", "Name"), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DistrictId, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.RadioButtonFor(model => model.Gender, "Male", htmlAttributes: new { @checked = "" }) <span>Male</span>
+                @Html.RadioButtonFor(model => model.Gender, "Female") <span>Female</span>
+                @Html.ValidationMessageFor(model => model.Gender, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(model => model.PhotoUrl, "Change Photo ?", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                <input type="file" name="PhotoUrl" id="PhotoUrl" />
+                @Html.ValidationMessageFor(model => model.PhotoUrl, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.TextAreaFor(model => model.Address, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Address, "", htmlAttributes: new { @class = "text-danger" })
+            </div>
+        </div>
+        <input type="submit" class="btn btn-success" value="Save" />
+        <span>&nbsp;&nbsp;&nbsp;</span>
+        @Html.ActionLink("Cancel", "Index", null, htmlAttributes: new { @class = "btn btn-primary" })
+    }
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Content/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script>
+    $('#DateOfBirth').datepicker({
+        todayBtn: "linked",
+        todayHighlight: true
+    });
+</script>
